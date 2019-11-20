@@ -1,6 +1,10 @@
 import React from "react";
 import "./App.css";
 import { exportCSVFile } from "./exportToCSV";
+import axios from "axios";
+// import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+const baseUrl = "http://localhost:3000";
 
 class App extends React.Component {
   constructor() {
@@ -10,7 +14,8 @@ class App extends React.Component {
       disableNextButton: true,
       disableRatingButtons: false,
       results: [],
-      rating: null
+      rating: null,
+      finish: false
     };
   }
 
@@ -40,7 +45,8 @@ class App extends React.Component {
           rating: this.state.rating,
           picture: this.picksArray[state.imageNumber],
           nextClickTime: new Date().getTime(),
-          rateClickTime: this.state.rateClickTime.getTime()
+          rateClickTime: this.state.rateClickTime.getTime(),
+          imageLoadedTime: this.state.imageLoadedTime.getTime()
         });
         return {
           imageNumber: state.imageNumber + 1,
@@ -50,19 +56,40 @@ class App extends React.Component {
         };
       });
     } else {
-      exportCSVFile(
-        {
-          rating: "Rating", // remove commas to avoid errors
-          picture: "Pic",
-          nextClickTime: "nextClickTime",
-          rateClickTime: "rateClickTime"
-        },
-        this.state.results,
-        "results"
-      );
+      this.setState((state, props) => {
+        return {
+          finish: !state.finish
+        };
+      });
+      this.sendRequest(this.state.results);
+      // exportCSVFile(
+      //   {
+      //     rating: "Rating", // remove commas to avoid errors
+      //     picture: "Pic",
+      //     nextClickTime: "nextClickTime",
+      //     rateClickTime: "rateClickTime"
+      //   },
+      //   this.state.results,
+      //   "results"
+      // );
     }
   };
 
+  sendRequest(results) {
+    axios.post(baseUrl + "/add", { results }).then(response => {
+      console.log("Response", response);
+    });
+  }
+
+  checked(rating) {
+    return this.state.rating === rating ? "checked" : null;
+  }
+
+  handleImageLoaded() {
+    this.setState((state, props) => ({
+      imageLoadedTime: new Date()
+    }));
+  }
   render() {
     return (
       <div className="App">
@@ -70,9 +97,11 @@ class App extends React.Component {
           <h1> Choose Picture </h1>
         </header>
         <div>
-          <img src={this.picksArray[this.state.imageNumber]} />
+          <img
+            onLoad={this.handleImageLoaded.bind(this)}
+            src={this.picksArray[this.state.imageNumber]}
+          />
         </div>
-
         <div className="rating-container">
           <ul
             className={
@@ -82,6 +111,7 @@ class App extends React.Component {
             }
           >
             <li
+              className={this.checked(1)}
               onClick={() => {
                 this.rate(1);
               }}
@@ -89,6 +119,7 @@ class App extends React.Component {
               <span>1</span>
             </li>
             <li
+              className={this.checked(2)}
               onClick={() => {
                 this.rate(2);
               }}
@@ -96,6 +127,7 @@ class App extends React.Component {
               <span>2</span>
             </li>
             <li
+              className={this.checked(3)}
               onClick={() => {
                 this.rate(3);
               }}
@@ -103,6 +135,7 @@ class App extends React.Component {
               <span>3</span>
             </li>
             <li
+              className={this.checked(4)}
               onClick={() => {
                 this.rate(4);
               }}
@@ -110,6 +143,7 @@ class App extends React.Component {
               <span>4</span>
             </li>
             <li
+              className={this.checked(5)}
               onClick={() => {
                 this.rate(5);
               }}

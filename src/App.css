@@ -25,6 +25,9 @@
   margin: 0;
 }
 
+.rating-list.disabled-rating li.checked span {
+  background-color: black;
+}
 .rating-list li {
   list-style: none;
   padding: 3px;
