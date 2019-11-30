@@ -1,9 +1,10 @@
-class StartPage extends React.Component {
-  constructor() {
-    super();
-  }
+import React from "react";
+import "./App.css";
 
+class StartPage extends React.Component {
   render() {
-    return <div></div>;
+    return <div>Start Page</div>;
   }
 }
+
+export default StartPage;
