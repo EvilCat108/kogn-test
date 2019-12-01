@@ -5,18 +5,13 @@ import { Link } from "react-router-dom";
 class StartPage extends React.Component {
   render() {
     return (
-      <div>
-        Start Page
-        <button to="/app">Start</button>
-        <Col xs="6" className="text-right">
-          <Link to="/app" className="btn">
-            Start
-          </Link>
-        </Col>
+      <div class="center">
+        Lūdzu, atbildiet vai jums patiks attēls vai ne pēc iespējas ātrāk. 1 -
+        patik vismazak 5 - patik ļoti; Atbildi mainīt nevar. Lai sākt
+        nospiediet.....
         <Link to="/app" className="btn">
-          Start
+          sākt...
         </Link>
-        {/* <button onClick={App}>Start</button> */}
       </div>
     );
   }
