@@ -1,16 +1,20 @@
 import React from "react";
+import "./App.css";
 import { Link } from "react-router-dom";
 
-export class StartPage extends React.Component {
+class StartPage extends React.Component {
   render() {
     return (
-      <div>
-        <h1>Title</h1>
-        <p>Description Test</p>
-        <Link to="/test">
-          <button className="button-container">Run Test</button>
+      <div class="center">
+        Lūdzu, atbildiet vai jums patiks attēls vai ne pēc iespējas ātrāk. 1 -
+        patik vismazak 5 - patik ļoti; Atbildi mainīt nevar. Lai sākt
+        nospiediet.....
+        <Link to="/app" className="btn">
+          sākt...
         </Link>
       </div>
     );
   }
 }
+
+export default StartPage;

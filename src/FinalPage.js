@@ -1,7 +1,7 @@
 import React from "react";
+import "./App.css";
 import { Link } from "react-router-dom";
-
-export class FinalPage extends React.Component {
+class FinalPage extends React.Component {
   render() {
     return (
       <div>
@@ -14,3 +14,5 @@ export class FinalPage extends React.Component {
     );
   }
 }
+
+export default FinalPage;
