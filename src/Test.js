@@ -1,9 +1,31 @@
 import React from "react";
 import "./App.css";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import blue1 from "./pics/blue1.png";
+import blue2 from "./pics/blue2.png";
+import blue3 from "./pics/blue3.png";
+import blue4 from "./pics/blue4.png";
+import blue5 from "./pics/blue5.png";
+import blue6 from "./pics/blue6.png";
+import blue7 from "./pics/blue7.png";
+import red1 from "./pics/red1.png";
+import red2 from "./pics/red2.png";
+import red3 from "./pics/red3.png";
+import red4 from "./pics/red4.png";
+import red5 from "./pics/red5.png";
+import red6 from "./pics/red6.png";
+import red7 from "./pics/red7.png";
+import green1 from "./pics/green1.png";
+import green2 from "./pics/green2.png";
+import green3 from "./pics/green3.png";
+import green4 from "./pics/green4.png";
+import green5 from "./pics/green5.png";
+import green6 from "./pics/green6.png";
+import green7 from "./pics/green7.png";
 
-const baseUrl = "http://localhost:3000"; //Cahngev it
+// const baseUrl = "http://34.249.21.232:3002"; //Cahngev it
+const baseUrl = "http://localhost:3002"; //Cahngev it
 
 export class Test extends React.Component {
   constructor() {
@@ -19,11 +41,28 @@ export class Test extends React.Component {
   }
 
   picksArray = [
-    "https://image.freepik.com/free-vector/abstract-gradient-psychedelic-effect-background_52683-13503.jpg",
-    "https://image.freepik.com/free-photo/abstract-saturated-psychedelic-vivid-background_23-2148235697.jpg",
-    "https://image.freepik.com/free-photo/gradient-iridescent-translucent-psychedelic-background_23-2148235693.jpg",
-    "https://image.freepik.com/free-vector/speed-effect-background_23-2148062578.jpg",
-    "https://image.freepik.com/free-vector/abstract-gradient-psychedelic-effect-background_52683-13505.jpg"
+    blue1,
+    blue2,
+    red1
+    // green1,
+    // red2,
+    // green2,
+    // green3,
+    // red3,
+    // blue3,
+    // red4,
+    // red5,
+    // green4,
+    // red5,
+    // green5,
+    // blue4,
+    // blue5,
+    // blue6,
+    // red6,
+    // green6,
+    // red7,
+    // green7,
+    // blue7
   ];
 
   rate = rating => {
@@ -32,38 +71,47 @@ export class Test extends React.Component {
         disableNextButton: false,
         disableRatingButtons: true,
         rating: rating,
-        rateClickTime: new Date()
+        rateClickTime: new Date().getTime()
       }));
     }
   };
 
   next = () => {
-    if (this.picksArray.length > this.state.imageNumber) {
+    if (this.picksArray.length - 1 >= this.state.imageNumber) {
       this.setState((state, props) => {
         state.results.push({
           rating: this.state.rating,
           picture: this.picksArray[state.imageNumber],
           nextClickTime: new Date().getTime(),
-          rateClickTime: this.state.rateClickTime.getTime(),
-          imageLoadedTime: this.state.imageLoadedTime.getTime()
+          rateClickTime: this.state.rateClickTime,
+          imageLoadedTime: this.state.imageLoadedTime
         });
-        return {
-          imageNumber: state.imageNumber + 1,
-          disableNextButton: true,
-          disableRatingButtons: false,
-          results: state.results
-        };
+
+        if (this.picksArray.length - 1 === this.state.imageNumber) {
+          return {
+            results: state.results,
+            disableNextButton: true,
+            disableRatingButtons: true,
+            finish: true
+          };
+        } else {
+          return {
+            imageNumber: 1 + this.state.imageNumber,
+            disableNextButton: true,
+            disableRatingButtons: false,
+            results: state.results
+          };
+        }
       });
-    } else {
-      this.sendRequest(this.state.results);
+      if (this.picksArray.length - 1 === this.state.imageNumber) {
+        this.sendRequest(this.state.results);
+      }
     }
   };
 
   sendRequest(results) {
-    const history = useHistory();
     axios.post(baseUrl + "/add", { results }).then(response => {
       console.log("Response", response);
-      history.push("/end");
     });
   }
 
@@ -73,7 +121,7 @@ export class Test extends React.Component {
 
   handleImageLoaded() {
     this.setState((state, props) => ({
-      imageLoadedTime: new Date()
+      imageLoadedTime: new Date().getTime()
     }));
   }
   render() {
@@ -139,9 +187,17 @@ export class Test extends React.Component {
             </li>
           </ul>
         </div>
-        <div className="button-container">
-          <button onClick={this.next}> Next </button>
-        </div>
+        {this.state.finish ? (
+          <div className="button-container">
+            <Link to="/end">
+              <button> Final </button>
+            </Link>
+          </div>
+        ) : (
+          <div className="button-container">
+            <button onClick={this.next}> Next </button>
+          </div>
+        )}
       </div>
     );
   }

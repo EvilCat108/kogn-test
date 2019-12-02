@@ -22,22 +22,26 @@ import green4 from "./pics/green4.png";
 import green5 from "./pics/green5.png";
 import green6 from "./pics/green6.png";
 import green7 from "./pics/green7.png";
-// import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { StartPage } from "./StartPage";
 import { FinalPage } from "./FinalPage";
 import { Test } from "./Test";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory
+} from "react-router-dom";
 
 class App extends React.Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route path="/test">
+          <Route exact path="/test">
             <Test />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <StartPage />
           </Route>
           <Route path="/end">
