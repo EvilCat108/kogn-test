@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import { exportCSVFile } from "./exportToCSV";
 import axios from "axios";
 import blue1 from "./pics/blue1.png";
 import blue2 from "./pics/blue2.png";
@@ -31,8 +30,6 @@ import { Test } from "./Test";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
-  constructor() {}
-
   render() {
     return (
       <Router>

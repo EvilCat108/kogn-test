@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const baseUrl = "http://localhost:3000"; //Cahngev it
 
@@ -54,18 +55,15 @@ export class Test extends React.Component {
         };
       });
     } else {
-      this.setState((state, props) => {
-        return {
-          finish: !state.finish
-        };
-      });
       this.sendRequest(this.state.results);
     }
   };
 
   sendRequest(results) {
+    const history = useHistory();
     axios.post(baseUrl + "/add", { results }).then(response => {
       console.log("Response", response);
+      history.push("/end");
     });
   }
 
